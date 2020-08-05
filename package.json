@@ -1,0 +1,28 @@
+{
+  "name": "invoice_generator_server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon src/app.js --exec babel-node --presets env",
+    "build": "babel src -d dist --source-maps inline --copy-files",
+    "serve": "node dist/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@hapi/joi": "^17.1.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "http-status-codes": "^1.4.0",
+    "mongoose": "^5.9.27",
+    "morgan": "^1.10.0",
+    "swagger-ui-express": "^4.1.4"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0"
+  }
+}
