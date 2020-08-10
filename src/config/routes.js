@@ -13,3 +13,5 @@ router.get('/invoices/:id', invoiceController.findOne);
 router.post('/invoices', invoiceController.create);
 router.delete('/invoices/:id', invoiceController.delete);
 router.put('/invoices/:id', invoiceController.update);
+
+router.get('/shareInvoice/:id', invoiceController.shareInvoice);

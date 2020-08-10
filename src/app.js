@@ -24,7 +24,7 @@ const PORT = 3000;
 app.use(express.json());
 
 // Parser for url params
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 
 // CORS:Cross origin resource sharing
 app.use(cors());

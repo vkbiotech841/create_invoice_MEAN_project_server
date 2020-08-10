@@ -1,4 +1,9 @@
 import mongoose from 'mongoose';
+import mongoosePaginate from 'mongoose-paginate';
+
+
+
+
 const Schema = mongoose.Schema;
 
 // Model are creaed to show, how and which formate data need to send to the database 
@@ -30,6 +35,10 @@ const InvoiceSchema = new Schema({
         type: Number
     }
 });
+
+// Additing Pagination:  it creates a docs array. Where no of item as present in the object form.
+// Pagination also defines: total items, limit (item per page), offset, No of pages, and current page no. 
+InvoiceSchema.plugin(mongoosePaginate);
 
 // Creating Model for Mongoose schema (it is like a class, hence write name as Capital letter).
 // Here, Invoice is the name of Model.

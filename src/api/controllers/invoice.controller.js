@@ -15,8 +15,37 @@ const invoices = [
 export default {
 
     findAll(req, res, next) {
-        Invoice.find()
-            .then(invoices => res.json(invoices))
+        // Adding pagination, filter and sorting
+        const { page = 1, perPage = 10, filter, sortField, sortDirection } = req.query;
+
+        const options = {
+            page: parseInt(page, 10),
+            limit: parseInt(perPage, 10),
+            sort: {
+                [sortField]: sortDirection,
+            }
+        };
+
+        const query = {};
+        if (filter) {
+            query.item = {
+                $regex: filter
+            };
+        };
+        if (sortField && sortDirection) {
+            options.sort = {
+                [sortField]: sortDirection,
+            };
+        };
+
+        console.log(options);
+
+        Invoice.paginate(query, options)         // Here, we fetching data using pagination. 
+            .then(invoices =>
+                setTimeout(() => {
+                    res.json(invoices)
+                }, 500)
+            )
             .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(err));
     },
 
@@ -67,6 +96,7 @@ export default {
             .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(err));
 
     },
+
     update(req, res) {
         let { id } = req.params;
 
@@ -91,5 +121,60 @@ export default {
             .then(invoice => res.json(invoice))
             .catch(err => res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(err));
 
+    },
+
+    shareInvoice(req, res) {
+        let { id } = req.params;
+        const sharableImageUrl = "https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg"
+        // const sharableImageUrl = "https://drive.google.com/file/d/190a0S1kK_QrdrygDtg3SmST07b8IIGpf/view?usp=sharing"
+        const invoiceInfo = {
+            name: 'VIKRAM KUMAR',
+            title: 'Monthy Invoice',
+            description: 'Your fee for this month has been paid.',
+            siteName: 'Flute',
+            url: 'https://thepencilapp.com/',
+            imgUrl: 'https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg'
+        };
+        const html = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta http-equiv="content-type" content="text/html; charset=utf-8">
+            <meta name='viewport' content='width=device-width, initial-scale=1' />
+
+            <title>Invoice</title>
+            <meta>${invoiceInfo.name}</meta>
+            <meta name="title" content="${invoiceInfo.title}">
+            <meta name="description" content="${invoiceInfo.description}">
+
+            <meta property="og:site_name" content="${invoiceInfo.siteName}" />
+            <meta property="og:title" content="${invoiceInfo.title}" />
+            <meta property="og:description" content="${invoiceInfo.description}" />
+            <meta property="og:type" content="website" />
+            <meta property="og:url" content="${invoiceInfo.url}" />
+            <meta property="og:image" itemprop="image" content="${invoiceInfo.imgUrl}" />
+            <meta property="og:image:secure_url"content='${invoiceInfo.imgUrl}' />
+            <meta property="og:image:type" content="image/jpeg" />
+            <meta property="og:image:width" content="225" />
+            <meta property="og:image:height" content="225" />
+            <meta property="og:updated_time" content="1440432930" />
+            <meta property="og:locale" content="en_GB" />
+
+            <meta property="twitter:card" content="summary_large_image" />
+            <meta property="twitter:url" content="${invoiceInfo.url}" />
+            <meta property="twitter:title" content="${invoiceInfo.title}" />
+            <meta property="twitter:description" content="${invoiceInfo.description}" />
+            <meta property="twitter:image" content="${invoiceInfo.imgUrl}" />
+
+           
+        </head>
+        <body>
+        <span itemprop="image" itemscope itemtype="image/jpeg">
+         <link itemprop="url" href="${invoiceInfo.imgUrl}">
+        </span>
+        </body>
+        </html>
+        `;
+        return res.status(HttpStatus.NOT_FOUND).send(html);
     }
 }

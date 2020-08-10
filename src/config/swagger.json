@@ -56,6 +56,38 @@
         "tags": ["Invocies"],
         "summary": "Find all Invoices from the server",
         "description": "All invoices",
+        "parameters": [
+          {
+            "name": "page",
+            "type": "integer",
+            "description": "Set the page for pagination",
+            "in": "query"
+          },
+          {
+            "name": "perPage",
+            "type": "integer",
+            "description": "Define the limit for the records",
+            "in": "query"
+          },
+          {
+            "name": "filter",
+            "type": "string",
+            "description": "Filter the invoices by item name",
+            "in": "query"
+          },
+          {
+            "name": "sortField",
+            "type": "string",
+            "description": "Define the sortField for sorting. i.e. item, date, due",
+            "in": "query"
+          },
+          {
+            "name": "sortDirection",
+            "type": "string",
+            "description": "Define the sortDirection. i.e. desc, asc",
+            "in": "query"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Ok",
@@ -195,8 +227,24 @@
       }
     },
     "Invoices": {
-      "type": "array",
-      "$ref": "#definitions/Invoice"
+      "properties": {
+        "docs": {
+          "type": "array",
+          "$ref": "#definitions/Invoice"
+        },
+        "total": {
+          "type": "integer"
+        },
+        "page": {
+          "type": "integer"
+        },
+        "pages": {
+          "type": "integer"
+        },
+        "limit": {
+          "type": "integer"
+        }
+      }
     }
   }
 }

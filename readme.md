@@ -10,4 +10,6 @@
 <!-- Joi package for validation: npm install @hapi/joi -->
 <!-- To get automatic Http status code :  npm install http-status-codes --save -->
 <!-- For making documentation of APIs: Swagger UI express was used: npm install swagger-ui-express -->
+<!-- check swagger documents at http://localhost:3000/api-docs/#/ -->
 <!-- For CORS: npm install cors --save  -->
+<!-- Pagination:  npm install mongoose-paginate -->
