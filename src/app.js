@@ -5,8 +5,9 @@ import logger from 'morgan';
 import swaggerUi from 'swagger-ui-express';
 import cors from 'cors';
 
-import { router } from './config/routes';
+
 import swaggerDocument from './config/swagger.json';
+import { restRouter } from './api';
 
 ///////////// Connecting to Mongoose /////////////////////////
 mongoose.Promise = global.Promise;
@@ -30,7 +31,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 // List of Routes:
-app.use('/api', router);
+app.use('/api', restRouter);
 
 // Swagger for making API documentation:
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, { explorer: true }));

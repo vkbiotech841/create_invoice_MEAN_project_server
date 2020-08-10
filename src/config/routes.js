@@ -8,9 +8,10 @@ import invoiceController from '../api/controllers/invoice.controller';
 // Further, this routes.js file will be utilized by app.js file. Hence, this file need to be exported as well.
 
 // Routes for Invoices:
-router.get('/invoices', invoiceController.findAll);
-router.get('/invoices/:id', invoiceController.findOne);
 router.post('/invoices', invoiceController.create);
+router.get('/invoices', invoiceController.findAll);
+
+router.get('/invoices/:id', invoiceController.findOne);
 router.delete('/invoices/:id', invoiceController.delete);
 router.put('/invoices/:id', invoiceController.update);
 
