@@ -25,9 +25,110 @@
   "produces": ["application/json"],
 
   "paths": {
+    "/Clients": {
+      "post": {
+        "tags": ["Clients"],
+        "summary": "Create new Client",
+        "description": "Create new Client in the System",
+        "parameters": [
+          {
+            "name": "client",
+            "description": "client that we want to create",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#definitions/Client"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "new client is created",
+            "schema": {
+              "$ref": "#definitions/Client"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Clients"],
+        "summary": "FInd all Clients from the server",
+        "description": "All clients",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#definitions/Clients"
+            }
+          }
+        }
+      }
+    },
+    "/Clients/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "Id of the Client",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": ["Clients"],
+        "description": "Find the Client by id",
+        "summary": "Find single Client",
+        "responses": {
+          "200": {
+            "description": "Client has found",
+            "schema": {
+              "$ref": "#definitions/Client"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Clients"],
+        "description": "Delete the Client by id",
+        "summary": "Delete single Client",
+        "responses": {
+          "200": {
+            "description": "Client has deleted",
+            "schema": {
+              "$ref": "#definitions/Client"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Clients"],
+        "summary": "Update an Client",
+        "description": "Update Client in the System",
+        "parameters": [
+          {
+            "name": "client",
+            "description": "Client that we want to udpate",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#definitions/UpdateClient"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Client is updated",
+            "schema": {
+              "$ref": "#definitions/Client"
+            }
+          }
+        }
+      }
+    },
     "/Invoices": {
       "post": {
-        "tags": ["Invoices"],
+        "tags": ["Invocies"],
         "summary": "Create new Invoice",
         "description": "Create new Invoice in the System",
         "parameters": [
@@ -51,10 +152,9 @@
           }
         }
       },
-
       "get": {
         "tags": ["Invocies"],
-        "summary": "Find all Invoices from the server",
+        "summary": "FInd all Invoices from the server",
         "description": "All invoices",
         "parameters": [
           {
@@ -78,13 +178,13 @@
           {
             "name": "sortField",
             "type": "string",
-            "description": "Define the sortField for sorting. i.e. item, date, due",
+            "description": "Define the sortField for sorting i.e item,date,due",
             "in": "query"
           },
           {
-            "name": "sortDirection",
+            "name": "sortDir",
             "type": "string",
-            "description": "Define the sortDirection. i.e. desc, asc",
+            "description": "Define the sortDir ie. desc, asc",
             "in": "query"
           }
         ],
@@ -98,7 +198,6 @@
         }
       }
     },
-
     "/Invoices/{id}": {
       "parameters": [
         {
@@ -108,10 +207,9 @@
           "type": "string"
         }
       ],
-
       "get": {
         "tags": ["Invocies"],
-        "description": "Find the Invoice by id",
+        "description": "Find the Invocie by id",
         "summary": "Find single Invoice",
         "responses": {
           "200": {
@@ -122,7 +220,6 @@
           }
         }
       },
-
       "delete": {
         "tags": ["Invocies"],
         "description": "Delete the Invocie by id",
@@ -136,7 +233,6 @@
           }
         }
       },
-
       "put": {
         "tags": ["Invocies"],
         "summary": "Update an Invoice",
@@ -164,10 +260,46 @@
       }
     }
   },
-
   "definitions": {
+    "Client": {
+      "required": ["firstName", "lastName", "email"],
+      "properties": {
+        "_id": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      }
+    },
+    "UpdateClient": {
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      }
+    },
+    "Clients": {
+      "type": "array",
+      "items": {
+        "$ref": "#definitions/Client"
+      }
+    },
     "Invoice": {
-      "required": ["item, qty, date, due"],
+      "required": ["item", "qty", "date", "due", "client"],
       "properties": {
         "_id": {
           "type": "string",
@@ -195,10 +327,12 @@
         "tax": {
           "type": "number",
           "format": "float"
+        },
+        "client": {
+          "type": "string"
         }
       }
     },
-
     "UpdateInvoice": {
       "properties": {
         "item": {
@@ -223,6 +357,9 @@
         "tax": {
           "type": "number",
           "format": "float"
+        },
+        "client": {
+          "type": "string"
         }
       }
     },

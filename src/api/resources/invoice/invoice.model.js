@@ -11,6 +11,8 @@ const Schema = mongoose.Schema;
 // Hence, Model is the blueprint (class) of data present in the database.
 // Generally mongoDB does not have a schema. However, we can use mongoose package to create schema.
 
+// Here, we also creating relationship between client and invoice. 
+
 const InvoiceSchema = new Schema({
     item: {
         type: String,
@@ -33,6 +35,11 @@ const InvoiceSchema = new Schema({
     },
     tax: {
         type: Number
+    },
+    client: {
+        ref: 'Client',                    // Here, ref : Client. Hence, invoice models creates relation with client Model.
+        type: Schema.Types.ObjectId,
+        required: true,
     }
 });
 

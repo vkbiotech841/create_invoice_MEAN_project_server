@@ -21,9 +21,11 @@ export default {
         const options = {
             page: parseInt(page, 10),
             limit: parseInt(perPage, 10),
+            populate: 'client',
             sort: {
                 [sortField]: sortDirection,
-            }
+            },
+
         };
 
         const query = {};
@@ -56,8 +58,10 @@ export default {
             date: Joi.date().required(),
             due: Joi.date().required(),
             qty: Joi.number().integer().required(),
+            client: Joi.string().required(),
             tax: Joi.number().optional(),
-            rate: Joi.number().optional()
+            rate: Joi.number().optional(),
+
         });
 
         const { error, value } = schema.validate(req.body);
@@ -108,7 +112,8 @@ export default {
             due: Joi.date().optional(),
             qty: Joi.number().integer().optional(),
             tax: Joi.number().optional(),
-            rate: Joi.number().optional()
+            rate: Joi.number().optional(),
+            client: Joi.string().optional()
         });
 
         const { error, value } = schema.validate(req.body);
